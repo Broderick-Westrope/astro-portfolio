@@ -5,9 +5,11 @@ import vue from "@astrojs/vue";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [UnoCSS({
-    injectReset: true
-  }),
-  vue(),
+  site: "https://localhost/",
+  integrations: [
+    UnoCSS({
+      injectReset: true
+    }),
+    vue(),
   ],
 });

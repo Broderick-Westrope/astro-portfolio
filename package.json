@@ -2,7 +2,9 @@
   "name": "astro-theme-kamakura",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "^pnpm@8.6.3",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
@@ -10,8 +12,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.5.4",
     "@astrojs/check": "^0.5.9",
+    "astro": "^4.5.4",
     "typescript": "^5.4.2"
+  },
+  "devDependencies": {
+    "@unocss/reset": "^0.58.6",
+    "unocss": "^0.58.6"
   }
 }

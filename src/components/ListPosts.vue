@@ -66,8 +66,6 @@ function getYear(date: Date | string | number) {
             <time :datetime="getDate(posts.data.date)">{{ posts.data.date.split(',')[0] }}</time>
             <span v-if="posts.data.duration">· {{ posts.data.duration }}</span>
             <span v-if="posts.data.tag">· {{ posts.data.tag }}</span>
-            <span v-if="posts.data.lang.includes('zh')">· 中文</span>
-            <span v-if="posts.data.link">· 中文</span>
           </div>
         </div>
         <div opacity-50 text-sm>{{ posts.data.description }}</div>

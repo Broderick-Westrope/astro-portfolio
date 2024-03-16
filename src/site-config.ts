@@ -29,16 +29,23 @@ export const siteConfig = {
       darkSrc: 'hero/dark.png',
       alt: 'An absurd little boy with big dreams.',
     },
-    socialLinks: [],
+    socialLinks: [
+      {
+        href: 'https://www.linkedin.com/in/broderick-westrope/',
+        icon: 'i-ri-linkedin-box-fill',
+        text: 'LinkedIn',
+      },
+      {
+        href: 'https://github.com/Broderick-Westrope',
+        icon: 'i-mingcute-github-fill',
+        text: 'GitHub',
+      },
+    ],
   },
   pageNavLinks: [
     {
       text: 'Blog',
       href: '/blog',
-    },
-    {
-      text: 'Notes',
-      href: '/notes',
     },
     {
       text: 'Reading',
@@ -100,20 +107,12 @@ export const siteConfig = {
   ],
   footerNavLinks: [
     {
-      text: 'About',
-      href: '/about',
-    },
-    {
-      text: 'Sponsor',
-      href: '/sponsor',
-    },
-    {
       text: 'Contact Me',
       href: 'mailto:broderickwestrope@gmail.com',
     },
     {
-      text: 'Github Repo',
-      href: 'https://github.com/Broderick-Westrope/astro-theme-kamakura',
+      text: 'GitHub Repo',
+      href: 'https://github.com/Broderick-Westrope/astro-portfolio',
     },
   ],
 }

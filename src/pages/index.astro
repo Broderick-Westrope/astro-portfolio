@@ -1,4 +1,5 @@
 ---
+import Quote from "../components/Quote.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import siteConfig from "../site-config";
 
@@ -12,18 +13,21 @@ const hero = siteConfig.hero;
       hero.image.darkSrc ||
       hero.socialLinks) && (
       <div class="prose max-w-3xl w-full">
-        {hero.title && <h1 class="text-title">{hero.title}</h1>}
         {hero.image.lightSrc && hero.image.darkSrc && (
-          <img
-            class="h-30vh ml-a mr-a block"
-            src={hero.image.darkSrc}
-            loading="lazy"
-            decoding="async"
-            alt={hero.image.alt || "Hero Image"}
-          />
+          <div class="flex flex-col items-center text-center">
+            <img src={hero.image.darkSrc} alt="" class="h-30vh w-a" />
+            <p class="w-a mt-8px text-left text-size-sm italic">
+              An{" "}
+              <a href="https://absurd.design/" target="_blank">
+                absurd
+              </a>{" "}
+              boy with big dreams.
+            </p>
+          </div>
         )}
+        {hero.title && <h1 class="text-title">{hero.title}</h1>}
         <div id="hero-text">
-          <p>I'm Broderick Westrope, but you can call me Brodie.</p>
+          <p>My name is Broderick Westrope, but most people call me Brodie.</p>
           <p>
             I work in Australia as a Software Engineer & Consultant at{" "}
             <a href="https://mantelgroup.com.au/">Mantel Group</a>.
@@ -63,24 +67,26 @@ const hero = siteConfig.hero;
             <hr class="w-14 mx-auto my-8 border-t border-truegray-200 dark:border-truegray-800" />
             <p>Find me on</p>
             <p class="flex gap-x-4 gap-y-2 flex-wrap">
-              {hero.socialLinks.map((link) => (
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="prose-link flex items-center"
-                >
-                  <i class:list={[link.icon, "text-sm mr-1"]} />
-                  <span>{link.text}</span>
-                </a>
-              ))}
+              {hero.socialLinks.map(
+                (link: { href: string; icon: string; text: string }) => (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="prose-link flex items-center"
+                  >
+                    <i class:list={[link.icon, "text-sm mr-1"]} />
+                    <span>{link.text}</span>
+                  </a>
+                ),
+              )}
             </p>
           </>
         )}
         {siteConfig.email && (
           <p>
             If you have any questions, a job opportunity, or would like to go
-            out for a coffee sometime, please email me at
+            meet for a coffee sometime, please email me at
             <a prose-link href={`mailto:${siteConfig.email}`}>
               {siteConfig.email}
             </a>

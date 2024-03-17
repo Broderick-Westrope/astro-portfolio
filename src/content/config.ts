@@ -26,7 +26,8 @@ const postsSchema = z.object({
   recording: z.boolean().optional(),
 })
 
-const pages = defineCollection({
+const pagesCollection = defineCollection({
+  type: 'content',
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -39,13 +40,19 @@ const pages = defineCollection({
   }),
 })
 
-const blog = defineCollection({
+const blogCollection = defineCollection({
+  type: 'content',
   schema: postsSchema,
 })
 
 
-const reading = defineCollection({
+const readingCollection = defineCollection({
+  type: 'content',
   schema: postsSchema,
 })
 
-export const collections = { pages, blog, reading }
+export const collections = {
+  'pages': pagesCollection,
+  'blog': blogCollection,
+  'reading': readingCollection
+}

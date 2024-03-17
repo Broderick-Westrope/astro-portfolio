@@ -44,10 +44,13 @@ export default defineConfig({
     ],
     transformers: [transformerDirectives(), transformerVariantGroup()],
     safelist: [
-        'i-carbon-webhook',
-        'i-carbon-mountain',
-        'i-carbon-pen-fountain',
-        'i-carbon-face-satisfied',
-        'i-carbon-tools-alt',
+        // Socials
+        'i-ri-linkedin-box-fill',
+        'i-mingcute-github-fill',
+        'i-fa6-solid-paper-plane',
+        // Projects
+        'i-fluent-tetris-app-48-regular',
+        'i-iconoir-internet',
+        'i-ant-design-mobile-outlined',
     ],
 })

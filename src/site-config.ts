@@ -54,53 +54,31 @@ export const siteConfig = {
   ],
   projects: [
     {
-      title: 'Develop Templates',
+      title: 'Eventurely',
+      desctiption: 'An experimental app for personal event management. The social media designed to get people... social!',
       projects: [
         {
-          text: 'Frosty Web',
-          description: 'A clean and minimalist website template designed to showcase content with style.',
-          icon: 'i-carbon-webhook',
-          href: '',
+          text: 'Server',
+          description: 'A web server written in Go. Using Connect RPC for the API, PostgreSQL for the database, and sqlc to generate Go code from SQL queries.',
+          icon: 'i-iconoir-internet',
+          href: 'https://github.com/Broderick-Westrope/eventurely',
+        },
+        {
+          text: 'Mobile',
+          description: 'A cross-platform mobile app written in Flutter. Using Riverpod for state management, Firebase Auth, and a gRPC client for the server.',
+          icon: 'i-ant-design-mobile-outlined',
+          href: 'https://github.com/Broderick-Westrope/eventurely_flutter',
         },
       ],
     },
     {
-      title: 'Framework',
+      title: 'Miscellaneous',
       projects: [
         {
-          text: 'Pixel Craft',
-          description: 'Frontend framework for crafting pixel-perfect web applications with a responsive design.',
-          icon: 'i-carbon-pen-fountain',
-          href: '',
-        },
-        {
-          text: 'Aurora UI',
-          description: 'Modern UI library designed to streamline frontend development with modular components.',
-          icon: 'i-carbon-mountain',
-          href: '',
-        },
-        {
-          text: 'Nimbus CSS',
-          description: 'Lightweight CSS framework for building responsive websites with a flexible grid system.',
-          icon: 'i-carbon-face-satisfied',
-          href: '',
-        },
-      ],
-    },
-    {
-      title: 'Library',
-      projects: [
-        {
-          text: 'Zenith Scroll',
-          description: 'Smooth-scrolling JavaScript library for creating immersive scrolling experiences.',
-          icon: '',
-          href: '',
-        },
-        {
-          text: 'Polaris JS',
-          description: 'Lightweight JavaScript library for creating smooth animations and transitions.',
-          icon: 'i-carbon-tools-alt',
-          href: '',
+          text: 'Tetrigo',
+          description: 'A Tetris TUI (Terminal User Interface) written in Go following the 2009 Tetris Design Guidelines.',
+          icon: 'i-fluent-tetris-app-48-regular',
+          href: 'https://github.com/Broderick-Westrope/tetrigo',
         },
       ],
     },
@@ -108,10 +86,12 @@ export const siteConfig = {
   footerNavLinks: [
     {
       text: 'Contact Me',
+      icon: 'i-fa6-solid-paper-plane',
       href: 'mailto:broderickwestrope@gmail.com',
     },
     {
-      text: 'GitHub Repo',
+      text: 'Site Repo',
+      icon: 'i-mingcute-github-fill',
       href: 'https://github.com/Broderick-Westrope/astro-portfolio',
     },
   ],

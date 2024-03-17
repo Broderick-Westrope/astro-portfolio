@@ -18,6 +18,7 @@ import ListProjects from "../components/ListProjects.vue";
             <h2 mb-4 font-bold>
               {group.title}
             </h2>
+            {group.description && <p mb-4>{group.description}</p>}
             <ListProjects list={group.projects} />
           </div>
         ))}

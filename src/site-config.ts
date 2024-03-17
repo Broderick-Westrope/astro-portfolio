@@ -55,7 +55,7 @@ export const siteConfig = {
   projects: [
     {
       title: 'Eventurely',
-      desctiption: 'An experimental app for personal event management. The social media designed to get people... social!',
+      description: 'An experimental app for personal event management. The social media designed to get people... social!',
       projects: [
         {
           text: 'Server',

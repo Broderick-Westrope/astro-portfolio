@@ -50,6 +50,7 @@ export default defineConfig({
         'i-fa6-solid-paper-plane',
         // Projects
         'i-fluent-tetris-app-48-regular',
+        'i-carbon-ibm-watsonx-code-assistant',
         'i-iconoir-internet',
         'i-ant-design-mobile-outlined',
     ],

@@ -3,10 +3,6 @@ export const siteConfig = {
   title: 'Broderick Westrope',
   subtitle: 'Portfolio, Blog, Expose.',
   description: 'Portfolio, Blog, Expose.',
-  image: {
-    src: '/preview.jpg',
-    alt: 'Kamakura theme for Astro - Supports Vue and UnoCSS.',
-  },
   email: 'broderickwestrope@gmail.com',
   headerNavLinks: [
     {
@@ -59,26 +55,32 @@ export const siteConfig = {
       projects: [
         {
           text: 'Server',
-          description: 'A web server written in Go. Using Connect RPC for the API, PostgreSQL for the database, and sqlc to generate Go code from SQL queries.',
+          description: 'Web server written in Go. Using Connect RPC for the API, PostgreSQL for the database, and sqlc to generate Go code from SQL queries.',
           icon: 'i-iconoir-internet',
           href: 'https://github.com/Broderick-Westrope/eventurely',
         },
         {
           text: 'Mobile',
-          description: 'A cross-platform mobile app written in Flutter. Using Riverpod for state management, Firebase Auth, and a gRPC client for the server.',
+          description: 'Cross-platform mobile app written with Flutter. Uses Riverpod for state management, Firebase Auth, and a gRPC client.',
           icon: 'i-ant-design-mobile-outlined',
           href: 'https://github.com/Broderick-Westrope/eventurely_flutter',
         },
       ],
     },
     {
-      title: 'Miscellaneous',
+      title: 'Go',
       projects: [
         {
           text: 'Tetrigo',
-          description: 'A Tetris TUI (Terminal User Interface) written in Go following the 2009 Tetris Design Guidelines.',
+          description: 'Tetris TUI (Terminal User Interface) written in Go following the 2009 Tetris Design Guidelines.',
           icon: 'i-fluent-tetris-app-48-regular',
           href: 'https://github.com/Broderick-Westrope/tetrigo',
+        },
+        {
+          text: 'goenums',
+          description: 'CLI tool to generate type safe Go enums using a simple JSON or YAML config file.',
+          icon: 'i-carbon-ibm-watsonx-code-assistant',
+          href: 'https://github.com/Broderick-Westrope/goenums',
         },
       ],
     },

@@ -1,17 +1,77 @@
 ---
-
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import siteConfig from '@/site-config'
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-		<button class="btn btn-primary">Button</button>
-	</body>
-</html>
+<BaseLayout description={siteConfig.description}>
+  <article class="prose">
+    <h1 class="text-title">Hi, I'm Broderick Westrope 👋 </h1>
+    <p>but most people call me Brodie :)</p>
+
+    <p>
+      By day I work as a consultant at <a href="https://mantelgroup.com.au/">Mantel Group</a>, where I break down business problems and craft solutions using a wide range of technologies in a cloud-first approach.
+    </p>
+
+    <p>
+      By night I'm an avid open-source developer, speaker, and athlete.
+    </p>
+    
+    <h2>Professional</h2>
+    <p>
+      My job as a consultant exposes me to a range of client projects, each with its own unique set of challenges and technologies.
+      The core of job is building <strong>Go</strong> and <strong>C#</strong> web services.
+      In the process I've leveraged <strong>Temporal</strong>, <strong>ASP.NET</strong>, <strong>Connect RPC</strong>, and more to solve various business needs.
+    </p>
+    <p>
+      For more details on my professional experience and skills please see my <a href="https://github.com/Broderick-Westrope/broderick-westrope/tree/main/CV">CV</a>.
+    </p>
+
+    <h2>Personal</h2>
+    <p>
+      My code journey began at a young age, with a fascination for the
+      limitless potential that software development provides (in
+      comparison to my other options like Lego and Minecraft). I started
+      by developing my own video games, eventually using the Unity engine
+      with <strong>C#</strong>. This was my introduction to the world of{" "}
+      <strong>.NET</strong> and quickly evolved into a career of web
+      development.
+    </p>
+    <p>
+      Beyond my professional endeavours, I'm a passionate advocate for FOSS, speaking at conferences, meetups, and contributing to open source projects.
+      My priorities in life are promoting physical and mental wellbeing, and creating a sense of community in all environments.
+      Outside of work I do a wide range of activities other than development. Bouldering 🧗, reading 📚, Muay Thai 🥋, motorcyles 🏍️, hiking 🥾, and horticulture 🌵 are just a few of my hobbies!
+    </p>
+    <p>
+      For more details on my open-source activity please see my <a href="https://github.com/Broderick-Westrope">GitHub profile</a>.
+    </p>
+
+    <hr class="hr-line" />
+    <p>Find me on</p>
+    <p class="flex gap-x-4 gap-y-2 flex-wrap">
+      {
+        siteConfig.socialLinks.map((link) => (
+          <a
+            aria-label={link.text}
+            href={link.href}
+            target="_blank"
+            class="prose-link flex gap-x-1"
+          >
+            <i class="iconify w-6 h-6" class:list={[link.icon]} />
+            {link.text}
+          </a>
+        ))
+      }
+    </p>
+    <p>
+      Feel free to contact me at
+      <a
+        prose-link
+        aria-label={siteConfig.email}
+        href={`mailto:${siteConfig.email}`}
+      >
+        {siteConfig.email}
+      </a>
+      to discuss professional and open-source opportunities, or just to say hi.
+    </p>
+  </article>
+</BaseLayout>

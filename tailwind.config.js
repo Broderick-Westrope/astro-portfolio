@@ -8,7 +8,8 @@ export default {
   theme: {},
   plugins: [
     require('daisyui'),
-    addIconSelectors(['akar-icons'])
+    addIconSelectors(['akar-icons']),
+    require('@tailwindcss/typography'),
   ],
   daisyui: {
     themes: [

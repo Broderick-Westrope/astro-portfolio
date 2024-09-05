@@ -54,9 +54,9 @@ import siteConfig from '@/site-config'
             aria-label={link.text}
             href={link.href}
             target="_blank"
-            class="prose-link flex gap-x-1"
+            class="flex gap-x-1"
           >
-            <span class="iconify size-6" class:list={[link.icon]} />
+            <i class="iconify size-6" class:list={[link.icon]} />
             {link.text}
           </a>
         ))
@@ -64,11 +64,7 @@ import siteConfig from '@/site-config'
     </p>
     <p>
       Feel free to contact me at
-      <a
-        prose-link
-        aria-label={siteConfig.email}
-        href={`mailto:${siteConfig.email}`}
-      >
+      <a aria-label={siteConfig.email} href={`mailto:${siteConfig.email}`}>
         {siteConfig.email}
       </a>
       to discuss professional and open-source opportunities, or just to say hi.

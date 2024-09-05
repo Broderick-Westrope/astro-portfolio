@@ -38,10 +38,6 @@ article {
     --at-apply: sm: min-h-38 min-h-28;
 }
 
-.prose-link i {
-    --at-apply: text-sm mr-1;
-}
-
 ::view-transition-old(root),
 ::view-transition-new(root) {
     animation: none;

@@ -47,22 +47,23 @@ function getYear(date: Date | string | number) {
       </div>
     </template>
     <li v-for="(post, index) in list " :key="post.data.title" class="mb-8">
-      <div v-if="!isSameYear(post.data.date, list[index - 1]?.data.date)" 
-      class="select-none relative h-16 pointer-events-none">
+      <div v-if="!isSameYear(post.data.date, list[index - 1]?.data.date)"
+        class="select-none relative h-16 pointer-events-none">
         <span class="text-8xl opacity-20 font-bold absolute top-2">
           {{ getYear(post.data.date) }}
         </span>
       </div>
       <a class="text-xl leading-tight flex flex-col gap-2 hover:text-primary transition-colors duration-200 cursor-pointer"
-      :aria-label="post.data.title" :target="getTarget(post)" :href="getHref(post)">
+        :aria-label="post.data.title" :target="getTarget(post)" :href="getHref(post)">
         <div class="flex flex-col md:flex-row gap-2 md:items-center">
           <div class="flex items-center text-wrap">
             <span class="leading-normal flex gap-x-2 items-center justify-center">
-              <span v-if="post.data.draft" class="iconify text-base align-middle akar-icons--pencil size-6" />
+              <span v-if="post.data.draft" class="iconify akar-icons--pencil size-6 text-warning" />
 
-              <span v-if="post.slug.includes('talks')" class="iconify text-base align-middle akar-icons--microphone size-6" />
-              <span v-else-if="post.slug.includes('posts')" class="iconify text-base align-middle akar-icons--paper-airplane size-6" />
-              <span v-else class="iconify text-base align-middle akar-icons--question size-6" />
+              <span v-if="post.slug.includes('talks')" class="iconify akar-icons--microphone size-6 text-info" />
+              <span v-else-if="post.slug.includes('posts')"
+                class="iconify akar-icons--paper-airplane size-6 text-info" />
+              <span v-else class="iconify akar-icons--question size-6 text-error" />
 
               {{ post.data.title }}
             </span>

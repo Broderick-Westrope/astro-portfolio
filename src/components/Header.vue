@@ -7,8 +7,8 @@ import { getLinkTarget } from '@/utils/link'
 
 const navLinks = siteConfig.header.navLinks || []
 
-const blurClasses = 'backdrop:blur-sm'
-const headerHideClasses = '-translate-y-full transition-transform duration-300'
+const blurClasses = ['backdrop:blur-sm']
+const headerHideClasses = ['-translate-y-full', 'transition-transform', 'duration-300']
 
 const socialLinks = computed(() => {
   return siteConfig.socialLinks.filter((link: Record<string, any>) => {
@@ -41,21 +41,21 @@ onMounted(() => {
     return
 
   if (document.documentElement.scrollTop > 100)
-    headerEl.classList.add(blurClasses)
+    headerEl.classList.add(...blurClasses)
 
   window.addEventListener('scroll', () => {
     if (scroll.value < 150) {
-      headerEl.classList.remove(blurClasses)
+      headerEl.classList.remove(...blurClasses)
       return
     }
 
     if (scroll.value - oldScroll.value > 150) {
-      headerEl.classList.add(headerHideClasses)
+      headerEl.classList.add(...headerHideClasses)
       oldScroll.value = scroll.value
     }
 
     if (oldScroll.value - scroll.value > 150) {
-      headerEl.classList.remove(headerHideClasses)
+      headerEl.classList.remove(...headerHideClasses)
       oldScroll.value = scroll.value
     }
   })

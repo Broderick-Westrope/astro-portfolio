@@ -1,13 +1,7 @@
-html.dark {
-    --dot-bg-color: #0d1117;
-    --dot-color: #2f353c;
-    --dot-mask-color: #000000;
-}
-
-html:not(.dark) {
-    --dot-bg-color: #ffffff;
-    --dot-color: #a5aeb850;
-    --dot-mask-color: #ffffff;
+html {
+    --dot-bg-color: oklch(var(--b1));
+    --dot-color: oklch(var(--p));
+    --dot-mask-color: oklch(var(--b1));
 }
 
 .bg-dot::before {

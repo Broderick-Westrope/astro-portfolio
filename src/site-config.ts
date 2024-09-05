@@ -70,6 +70,14 @@ export const siteConfig = {
                 text: 'GitHub Repository',
                 href: 'https://github.com/Broderick-Westrope/astro-portfolio',
             },
+            {
+                text: 'Built with Astro',
+                href: 'https://astro.build',
+            },
+            {
+                text: 'Inspired by Vitesse',
+                href: 'https://github.com/kieranwong9865/astro-theme-vitesse',
+            }
         ],
     },
 }

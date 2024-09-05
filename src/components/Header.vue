@@ -7,7 +7,7 @@ import { getLinkTarget } from '@/utils/link'
 
 const navLinks = siteConfig.header.navLinks || []
 
-const blurClasses = ['backdrop:blur-sm']
+const blurClass = 'backdrop-blur-sm'
 const headerHideClasses = ['-translate-y-full', 'transition-transform', 'duration-300']
 
 const socialLinks = computed(() => {
@@ -36,16 +36,16 @@ onMounted(() => {
     event.preventDefault()
   })
 
-  const headerEl = document.querySelector('#header') as HTMLElement
+  const headerEl = document.getElementById('header') as HTMLElement
   if (!headerEl)
     return
 
   if (document.documentElement.scrollTop > 100)
-    headerEl.classList.add(...blurClasses)
+    headerEl.classList.add(blurClass)
 
   window.addEventListener('scroll', () => {
     if (scroll.value < 150) {
-      headerEl.classList.remove(...blurClasses)
+      headerEl.classList.remove(blurClass)
       return
     }
 
@@ -78,7 +78,7 @@ function toggleNavDrawer() {
 </script>
 
 <template>
-  <header id="header" :class="{ blurClasses: scroll > 20 }"
+  <header id="header" :class="{ 'backdrop-blur-sm': scroll > 20 }"
     class="!fixed bg-transparent z-50 w-screen h-20 px-6 flex justify-between items-center">
     <div class="flex items-center h-full gap-x-6">
       <a href="/" mr-6 aria-label="Header Logo Image">

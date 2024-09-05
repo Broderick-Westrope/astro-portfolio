@@ -16,11 +16,16 @@ export const siteConfig = {
             icon: 'akar-icons--github-outline-fill',
         },
         {
-            text: 'Linkedin',
+            text: 'LinkedIn',
             // TODO: Add linkedin URL
             href: '',
             icon: 'akar-icons--linkedin-v1-fill',
         },
+        {
+            text: 'Email',
+            href: 'mailto:brodie.westrope@gmail.com',
+            icon: 'akar-icons--envelope',
+        }
     ],
     header: {
         // TODO: replace logo
@@ -34,28 +39,24 @@ export const siteConfig = {
                 href: '/blog',
             },
             {
-                text: 'Notes',
-                href: '/blog/notes',
-            },
-            {
-                text: 'Talks',
-                href: '/blog/talks',
-            },
-            {
                 text: 'Projects',
                 href: '/projects',
             },
+            {
+                text: 'CV',
+                href: 'https://github.com/Broderick-Westrope/broderick-westrope/blob/main/CV/cv.pdf'
+            }
         ],
     },
     page: {
         blogLinks: [
             {
-                text: 'Blog',
+                text: 'All',
                 href: '/blog',
             },
             {
-                text: 'Notes',
-                href: '/blog/notes',
+                text: 'Posts',
+                href: '/blog/posts',
             },
             {
                 text: 'Talks',

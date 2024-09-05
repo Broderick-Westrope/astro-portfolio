@@ -19,11 +19,10 @@ import siteConfig from '@/site-config'
     <h2>Professional</h2>
     <p>
       My job as a consultant exposes me to a range of client projects, each with its own unique set of challenges and technologies.
-      The core of job is building <strong>Go</strong> and <strong>C#</strong> web services.
-      In the process I've leveraged <strong>Temporal</strong>, <strong>ASP.NET</strong>, <strong>Connect RPC</strong>, and more to solve various business needs.
+      The core of my job is building <strong>Go</strong> and <strong>C#</strong> web services leveraging <strong>Temporal</strong>, <strong>ASP.NET</strong>, <strong>Connect RPC</strong>, and more!
     </p>
     <p>
-      For more details on my professional experience and skills please see my <a href="https://github.com/Broderick-Westrope/broderick-westrope/tree/main/CV">CV</a>.
+      For more details on my professional experience and skills please see my CV using the link at the top.
     </p>
 
     <h2>Personal</h2>
@@ -42,19 +41,19 @@ import siteConfig from '@/site-config'
       Outside of work I do a wide range of activities other than development. Bouldering 🧗, reading 📚, Muay Thai 🥋, motorcyles 🏍️, hiking 🥾, and horticulture 🌵 are just a few of my hobbies!
     </p>
     <p>
-      For more details on my open-source activity please see my <a href="https://github.com/Broderick-Westrope">GitHub profile</a>.
+      For more details on my open-source activity please see my GitHub profile using the link below.
     </p>
 
     <hr class="w-20 mx-auto my-8 border-solid border-[1]" />
     <p>Find me on</p>
-    <p class="flex gap-x-4 gap-y-2 flex-wrap">
+    <p class="flex gap-x-8 flex-wrap">
       {
         siteConfig.socialLinks.map((link) => (
           <a
             aria-label={link.text}
             href={link.href}
             target="_blank"
-            class="flex gap-x-1"
+            class="flex gap-x-1 items-center text-secondary hover:text-primary no-underline"
           >
             <i class="iconify size-6" class:list={[link.icon]} />
             {link.text}
@@ -63,11 +62,7 @@ import siteConfig from '@/site-config'
       }
     </p>
     <p>
-      Feel free to contact me at
-      <a aria-label={siteConfig.email} href={`mailto:${siteConfig.email}`}>
-        {siteConfig.email}
-      </a>
-      to discuss professional and open-source opportunities, or just to say hi.
+      Feel free to contact me to discuss professional and open-source opportunities, or just to say hi.
     </p>
   </article>
 </BaseLayout>

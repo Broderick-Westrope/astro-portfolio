@@ -7,7 +7,6 @@ export const projectData: ProjectData = [
             {
                 text: 'Project Name',
                 description: 'Your project description information is a long piece of text.',
-                icon: 'akar-icons--sun',
                 href: '/',
             },
             {

@@ -14,11 +14,10 @@ function toTop() {
 <template>
   <button
     aria-label="Scroll to top"
-    fixed right-5 sm:right-30 bottom-30 w-12 h-12 text-lg hover:op100 rounded-full flex="~ items-center justify-center"
-    bg-hex-8883 transition duration-300 z-100 print:hidden
-    :class="scroll > 300 ? 'op75' : 'op0 pointer-events-none'"
+    class="fixed right-5, sm:right-32 bottom-32 w-12 h-12 text-lg hover:opacity-100 rounded-full flex items-center justify-center bg-accent text-accent-content transition duration-300 z-10 print:hidden"
+    :class="scroll > 300 ? 'opacity-75' : 'opacity-0 pointer-events-none'"
     @click="toTop()"
   >
-    <i i-ri-arrow-up-line />
+    <span class="iconify akar-icons--arrow-up" />
   </button>
 </template>

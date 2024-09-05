@@ -45,5 +45,7 @@ function toggleTheme(event: MouseEvent) {
 </script>
 
 <template>
-  <button :aria-label="isDark ? 'Dark Theme' : 'Light Theme'" nav-link dark:i-ri-moon-line i-ri-sun-line @click="toggleTheme" />
+  <button :aria-label="isDark ? 'Dark Theme' : 'Light Theme'"
+  class="iconify nav-link dark:akar-icons--moon akar-icons--sun"
+  @click="toggleTheme" />
 </template>

@@ -10,4 +10,21 @@ export default {
     require('daisyui'),
     addIconSelectors(['akar-icons'])
   ],
+  daisyui: {
+    themes: [
+      {
+        tokyoNightMoon: {
+          "primary": "#c099ff",
+          "secondary": "#82aaff",
+          "accent": "#828bb8",
+          "neutral": "#c8d3f5",
+          "base-100": "#222436",
+          "info": "#86e1fc",
+          "success": "#c3e88d",
+          "warning": "#ffc777",
+          "error": "#ff757f",
+        },
+      },
+    ],
+  },
 }

@@ -53,7 +53,7 @@ function getYear(date: Date | string | number) {
           {{ getYear(post.data.date) }}
         </span>
       </div>
-      <a class="text-lg leading-tight nav-link flex flex-col gap-2"
+      <a class="text-lg leading-tight flex flex-col gap-2 opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer"
       :aria-label="post.data.title" :target="getTarget(post)" :href="getHref(post)">
         <div class="flex flex-col md:flex-row gap-2 md:items-center">
           <div class="flex gap-2 items-center text-wrap">

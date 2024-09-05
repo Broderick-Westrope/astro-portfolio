@@ -36,7 +36,7 @@ function activeLink(pathname: string) {
       siteConfig.page.blogLinks.map((nav) => (
         <a
           aria-label={nav.text}
-          class={`nav-link text-3xl font-bold ${activeLink(nav.href) ? 'opacity-80' : 'opacity-30 hover:opacity-50'}`}
+          class={`opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer text-3xl font-bold ${activeLink(nav.href) ? 'opacity-80' : 'opacity-30 hover:opacity-50'}`}
           href={nav.href}
         >
           {nav.text}

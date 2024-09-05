@@ -44,9 +44,11 @@ onMounted(() => {
     headerEl.classList.add(blurClass)
 
   window.addEventListener('scroll', () => {
-    if (scroll.value < 150) {
+    if (scroll.value < 50) {
       headerEl.classList.remove(blurClass)
       return
+    } else {
+      headerEl.classList.add(blurClass)
     }
 
     if (scroll.value - oldScroll.value > 150) {
@@ -86,7 +88,7 @@ function toggleNavDrawer() {
       </a>
       <nav class="sm:flex hidden flex-wrap gap-x-6 position-initial flex-row">
         <a v-for="link in navLinks" :key="link.text" :aria-label="`${link.text}`" :target="getLinkTarget(link.href)"
-          class="nav-link" :href="link.href">
+          class="opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer" :href="link.href">
           {{ link.text }}
         </a>
       </nav>
@@ -95,17 +97,17 @@ function toggleNavDrawer() {
       </div>
     </div>
     <div class="flex gap-x-6">
-      <a v-for="link in socialLinks" :key="link.text" :aria-label="`${link.text}`" :class="link.icon" class="iconify nav-link"
+      <a v-for="link in socialLinks" :key="link.text" :aria-label="`${link.text}`" :class="link.icon" class="iconify opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer"
         :target="getLinkTarget(link.href)" :href="link.href" />
 
-      <a class="nav-link" target="_blank" href="/rss.xml" i-ri-rss-line aria-label="RSS" />
+      <a class="opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer" target="_blank" href="/rss.xml" i-ri-rss-line aria-label="RSS" />
       <ThemeToggle />
     </div>
   </header>
   <nav id="nav-drawer" class="-translate-x-full sm:hidden box-border fixed h-screen z-50 left-0 top-0 min-w-32 max-w-60 p-6 text-lg flex flex-col gap-5 transition-all bg-base-200">
     <span class="iconify akar-icons--three-line-horizontal size-6" />
     <a v-for="link in navLinks" :key="link.text" :aria-label="`${link.text}`" :target="getLinkTarget(link.href)"
-      class="nav-link" :href="link.href" @click="toggleNavDrawer()">
+      class="opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer" :href="link.href" @click="toggleNavDrawer()">
       {{ link.text }}
     </a>
   </nav>

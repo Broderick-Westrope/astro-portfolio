@@ -83,7 +83,7 @@ function toggleNavDrawer() {
   <header id="header" :class="{ 'backdrop-blur-sm': scroll > 20 }"
     class="!fixed bg-transparent z-50 w-full h-20 px-6 flex justify-between items-center">
     <div class="flex items-center h-full gap-x-6">
-      <a href="/" mr-6 aria-label="Header Logo Image" class="iconify akar-icons--sparkles size-8" />
+      <a href="/" mr-6 aria-label="Header Logo Image" class="iconify akar-icons--sparkles size-7" />
       <nav class="sm:flex items-center justify-center hidden flex-wrap gap-x-6 position-initial flex-row">
         <a v-for="link in navLinks" :key="link.text" :aria-label="`${link.text}`" :target="getLinkTarget(link.href)"
           class="opacity-70 hover:opacity-100 transition-opacity duration-200 cursor-pointer" :href="link.href">

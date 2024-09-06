@@ -64,7 +64,7 @@ onMounted(() => {
     if (dotsContainer === null) return;
 
     const dots = [];
-    const gridSize = 30;
+    const gridSize = 50;
     const numDotsX = Math.ceil(window.innerWidth / gridSize);
     const numDotsY = Math.ceil(window.innerHeight / gridSize);
 

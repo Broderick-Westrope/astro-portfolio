@@ -3,6 +3,25 @@ import { projectData, mentions } from './data'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import ListProjects from '@/components/ListProjects.vue'
 import ListMentions from '@/components/ListMentions.vue'
+import type { MentionData } from '@/types'
+import { Octokit } from '@octokit/rest';
+
+const octokit = new Octokit({
+  auth: import.meta.env.GITHUB_TOKEN
+})
+
+let mentionData: MentionData = new Array(mentions.length)
+
+for (let i = 0; i < mentions.length; i++) {
+  const response = await octokit.request('GET /repos/' + mentions[i])
+
+  let element = {
+    text: response.data.name,
+    description: response.data.description,
+    href: response.data.html_url
+  }
+  mentionData[i] = element
+}
 ---
 
 <BaseLayout title="Projects" description="List of projects that I am proud of">
@@ -40,7 +59,7 @@ import ListMentions from '@/components/ListMentions.vue'
                   Projects that I have not worked on but have inspired me as a developer.
                 </p>
               </div>
-              <ListMentions client:load links={mentions} />
+              <ListMentions client:load data={mentionData} />
             </div>
                             )
               }

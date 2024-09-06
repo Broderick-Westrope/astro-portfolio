@@ -18,3 +18,9 @@ export type ProjectData = Array<{
         href: string
     }>
 }>
+
+export type MentionData = Array<{
+    text: string
+    description: string | null
+    href: string
+}>

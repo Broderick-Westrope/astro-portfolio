@@ -16,7 +16,8 @@ defineProps<{
         nothing here yet...
       </div>
     </template>
-    <li v-for="project in list" :key="project.text" class="p-2 opacity-70 hover:opacity-100 hover:text-primary cursor-pointer hover:bg-neutral hover:bg-opacity-10 transition-opacity duration-300 w-full flex items-center rounded-lg">
+    <li v-for="project in list" :key="project.text"
+      class="p-2 opacity-70 hover:opacity-100 hover:text-primary cursor-pointer hover:bg-neutral hover:bg-opacity-10 transition-opacity duration-300 w-full flex items-center rounded-lg">
       <a class="flex items-center" target="_blank" :href="project.href" :aria-label="project.text">
         <div class="ml-2 mr-4 pt-2">
           <i class="iconify text-4xl inline-block" :class="project.icon || 'akar-icons--question'" />

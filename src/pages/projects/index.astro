@@ -1,7 +1,8 @@
 ---
-import { projectData } from './data'
+import { projectData, mentions } from './data'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import ListProjects from '@/components/ListProjects.vue'
+import ListMentions from '@/components/ListMentions.vue'
 ---
 
 <BaseLayout title="Projects" description="List of projects that I am proud of">
@@ -12,14 +13,37 @@ import ListProjects from '@/components/ListProjects.vue'
         <div>
           {projectData.map((i) => (
             <div class="mb-10">
-              <h2 class="select-none relative h-20 pointer-events-none">
-                <span class="text-4xl font-bold absolute top-0">
-              {i.title}
-                </span>
+              <div class="py-10 flex flex-col gap-2">
+              <h2 class="select-none pointer-events-none text-4xl font-bold">
+                  {i.title}
               </h2>
+              {
+                i.subtitle && (
+                  <p class="text-lg">
+                    {i.subtitle}
+                  </p>
+                )
+              }
+              </div>
               <ListProjects list={i.projects} />
             </div>
           ))}
+
+          {
+                mentions.length > 0 && (
+            <div class="mb-10">
+              <div class="py-10 flex flex-col gap-2">
+              <h2 class="select-none pointer-events-none text-4xl font-bold">
+                  Honourable Mentions
+              </h2>
+                <p class="text-lg">
+                  Projects that I have not worked on but have inspired me as a developer.
+                </p>
+              </div>
+              <ListMentions client:load links={mentions} />
+            </div>
+                            )
+              }
         </div>
       )
     }

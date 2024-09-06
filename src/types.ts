@@ -10,6 +10,7 @@ export type CollectionPages = CollectionEntry<Pages>
 
 export type ProjectData = Array<{
     title: string
+    subtitle?: string
     projects: Array<{
         text: string
         description?: string

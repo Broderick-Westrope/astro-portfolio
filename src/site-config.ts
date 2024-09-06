@@ -13,7 +13,7 @@ export const siteConfig = {
         {
             text: 'GitHub',
             href: 'https://github.com/Broderick-Westrope',
-            icon: 'akar-icons--github-outline-fill',
+            icon: 'akar-icons--github-fill',
             header: true,
         },
         {
@@ -69,16 +69,28 @@ export const siteConfig = {
     footer: {
         navLinks: [
             {
-                text: 'GitHub Repository',
+                text: 'site repository',
                 href: 'https://github.com/Broderick-Westrope/astro-portfolio',
             },
             {
-                text: 'Built with Astro',
+                text: 'Vitesse',
+                href: 'https://github.com/kieranwong9865/astro-theme-vitesse',
+            },
+            {
+                text: 'Astro',
                 href: 'https://astro.build',
             },
             {
-                text: 'Inspired by Vitesse',
-                href: 'https://github.com/kieranwong9865/astro-theme-vitesse',
+                text: 'Tailwind',
+                href: 'https://tailwindcss.com/',
+            },
+            {
+                text: 'DaisyUI',
+                href: 'https://daisyui.com/',
+            },
+            {
+                text: 'Akar Icons',
+                href: 'https://akaricons.com/',
             }
         ],
     },

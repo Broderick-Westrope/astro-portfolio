@@ -14,12 +14,14 @@ export const siteConfig = {
             text: 'GitHub',
             href: 'https://github.com/Broderick-Westrope',
             icon: 'akar-icons--github-outline-fill',
+            header: true,
         },
         {
             text: 'LinkedIn',
             // TODO: Add linkedin URL
             href: '',
             icon: 'akar-icons--linkedin-v1-fill',
+            header: true,
         },
         {
             text: 'Email',

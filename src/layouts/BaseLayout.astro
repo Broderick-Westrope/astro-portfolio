@@ -16,7 +16,7 @@ const { ...head } = Astro.props
     <BaseHead {...head} />
     <ViewTransitions />
   </head>
-  <body id="bg-dot-container" class="bg-base-100 min-h-screen font-sans w-full">
+  <body class="bg-base-100 min-h-screen font-sans w-full">
     <Header client:load />
     <DotBackground client:load />
     <main

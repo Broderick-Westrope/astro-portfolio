@@ -19,7 +19,7 @@ export const siteConfig = {
         {
             text: 'LinkedIn',
             // TODO: Add linkedin URL
-            href: '',
+            href: 'https://www.linkedin.com/in/broderick-westrope/',
             icon: 'akar-icons--linkedin-v1-fill',
             header: true,
         },

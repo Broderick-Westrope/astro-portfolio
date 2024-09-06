@@ -36,7 +36,7 @@ function getRandomColor(): string {
 
 function getRandomOpacity(row: number, numRows: number): number {
     const max = 1;
-    const min = 0.5;
+    const min = 0.8;
     let value = randomOnBellCurve(min, max, (max + min) / 2, (max - min) / 4);
 
     // Fade out towards the bottom
@@ -71,13 +71,16 @@ onMounted(() => {
     for (let y = 0; y < numDotsY; y++) {
         for (let x = 0; x < numDotsX; x++) {
             let size = getRandomSize() + "px";
+            let xPos = getRandomPos(x, gridSize);
+            let yPos = getRandomPos(y, gridSize);
+            if (xPos > window.innerWidth || yPos > window.innerHeight) continue;
 
             const dot = document.createElement('div');
             dot.style.position = 'absolute';
             dot.style.width = size;
             dot.style.height = size;
-            dot.style.left = `${getRandomPos(x, gridSize)}px`;
-            dot.style.top = `${getRandomPos(y, gridSize)}px`;
+            dot.style.left = `${xPos}px`;
+            dot.style.top = `${yPos}px`;
             dot.style.backgroundColor = getRandomColor();
             dot.style.opacity = getRandomOpacity(y, numDotsY).toString();
             dot.style.clipPath = 'polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%)'; // Star shape

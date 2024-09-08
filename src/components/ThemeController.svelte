@@ -7,6 +7,7 @@
 
   // Toggle theme function
   function toggleDark() {
+    console.log("toggleDark");
     isDark.update((value) => {
       const newValue = !value;
       if (newValue) {
@@ -16,21 +17,29 @@
       }
       return newValue;
     });
+    console.log("isDark", $isDark);
   }
 
   onMount(() => {
     // Check for the saved theme in localStorage
     const storedTheme = localStorage.getItem("theme");
 
-    if (
-      storedTheme === "light" ||
-      (!storedTheme &&
-        window.matchMedia("(prefers-color-scheme: light)").matches)
-    ) {
-      isDark.set(false);
-    } else {
-      isDark.set(true);
-    }
+    console.log("storedTheme", storedTheme);
+    console.log(
+      "prefers dark",
+      window.matchMedia("(prefers-color-scheme: dark)").matches,
+    );
+    console.log(
+      "prefers light",
+      window.matchMedia("(prefers-color-scheme: light)").matches,
+    );
+
+    isDark.set(
+      storedTheme === "dark" ||
+        window.matchMedia("(prefers-color-scheme: dark)").matches,
+    );
+
+    console.log("isDark", $isDark);
 
     // Update local storage whenever the theme changes
     isDark.subscribe((value) => {
@@ -43,10 +52,10 @@
   <input
     type="checkbox"
     class="theme-controller"
-    value="light"
+    value="dark"
     bind:checked={$isDark}
     on:click={toggleDark}
   />
-  <i class="iconify akar-icons--sun size-6 swap-on" />
-  <i class="iconify akar-icons--moon size-6 swap-off" />
+  <i class="iconify akar-icons--sun size-6 swap-off" />
+  <i class="iconify akar-icons--moon size-6 swap-on" />
 </label>

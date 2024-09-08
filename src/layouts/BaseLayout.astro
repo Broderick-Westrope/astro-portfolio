@@ -2,10 +2,10 @@
 import { fade } from 'astro:transitions'
 import { ViewTransitions } from 'astro:transitions'
 import BaseHead from '@/components/BaseHead.astro'
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
-import DotBackground from '@/components/DotBackground.vue'
-import ScrollToTop from '@/components/ScrollToTop.vue'
+import Header from '@/components/Header.svelte'
+import Footer from '@/components/Footer.svelte'
+import Background from '@/components/Background.svelte'
+import ScrollToTop from '@/components/ScrollToTop.svelte'
 
 const { ...head } = Astro.props
 ---
@@ -18,7 +18,7 @@ const { ...head } = Astro.props
   </head>
   <body class="bg-base-100 min-h-screen font-sans w-full">
     <Header client:load />
-    <DotBackground client:load />
+    <Background client:load />
     <main
       class="grow max-w-3xl mx-auto sm:pt-36 pt-24 pb-16 px-6 relative"
       transition:animate={fade({ duration: '0.4s' })}

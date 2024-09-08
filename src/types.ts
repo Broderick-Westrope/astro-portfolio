@@ -8,19 +8,15 @@ export type Pages = 'pages'
 
 export type CollectionPages = CollectionEntry<Pages>
 
-export type ProjectData = Array<{
+export type ProjectGroup = {
     title: string
-    subtitle?: string
-    projects: Array<{
-        text: string
-        description?: string
-        icon?: string
-        href: string
-    }>
-}>
+    description?: string
+    projects: Array<ProjectData>
+}
 
-export type MentionData = Array<{
-    text: string
+export type ProjectData = {
+    title: string
     description: string | null
+    icon?: string
     href: string
-}>
+}

@@ -1,9 +1,7 @@
-<template>
-    <div id="bg-dot-container" class="relative w-full h-full"></div>
-</template>
+<div id="bg-dot-container" class="relative w-full h-full"></div>
 
-<script setup lang="ts">
-import { onMounted } from 'vue'
+<script lang="ts">
+    import { onMount } from "svelte";
 
 const dotColors = [
     'oklch(var(--p))',
@@ -59,7 +57,7 @@ function getRandomPos(pos: number, gridSize: number): number {
     return (pos * gridSize) + (offset * 10)
 }
 
-onMounted(() => {
+onMount(() => {
     const dotsContainer = document.getElementById('bg-dot-container');
     if (dotsContainer === null) return;
 

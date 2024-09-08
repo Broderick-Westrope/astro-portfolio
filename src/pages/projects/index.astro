@@ -2,21 +2,21 @@
 import { projectData, mentions } from './data'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import ListProjects from '@/components/ListProjects.vue'
-import ListMentions from '@/components/ListMentions.vue'
-import type { MentionData } from '@/types'
 import { Octokit } from '@octokit/rest';
+import type { ProjectData } from '@/types';
+import ListPosts from '@/components/ListPosts.svelte';
 
 const octokit = new Octokit({
   auth: import.meta.env.GITHUB_TOKEN
 })
 
-let mentionData: MentionData = new Array(mentions.length)
+let mentionData: ProjectData[] = new Array(mentions.length)
 
 for (let i = 0; i < mentions.length; i++) {
   const response = await octokit.request('GET /repos/' + mentions[i])
 
   let element = {
-    text: response.data.name,
+    title: response.data.name,
     description: response.data.description,
     href: response.data.html_url
   }
@@ -37,14 +37,14 @@ for (let i = 0; i < mentions.length; i++) {
                   {i.title}
               </h2>
               {
-                i.subtitle && (
+                i.description && (
                   <p class="text-lg">
-                    {i.subtitle}
+                    {i.description}
                   </p>
                 )
               }
               </div>
-              <ListProjects list={i.projects} />
+              <ListProjects data={i.projects} />
             </div>
           ))}
 
@@ -59,7 +59,7 @@ for (let i = 0; i < mentions.length; i++) {
                   Projects that I have not worked on but have inspired me as a developer.
                 </p>
               </div>
-              <ListMentions client:load data={mentionData} />
+              <ListProjects client:load data={mentionData} />
             </div>
                             )
               }

@@ -1,11 +1,11 @@
-import type { ProjectData } from '@/types'
+import type { ProjectData, ProjectGroup } from '@/types'
 
-export const projectData: ProjectData = [
+export const projectData: ProjectGroup[] = [
     {
         title: 'Personal Projects',
         projects: [
             {
-                text: 'Tetrigo',
+                title: 'Tetrigo',
                 description: 'Play Tetris in your terminal.',
                 icon: 'akar-icons--game-controller',
                 href: 'https://github.com/Broderick-Westrope/tetrigo',
@@ -14,16 +14,16 @@ export const projectData: ProjectData = [
     },
     {
         title: 'Contributions',
-        subtitle: 'Open-Source projects that I have contributed to.',
+        description: 'Open-Source projects that I have contributed to.',
         projects: [
             {
-                text: 'Lipgloss',
+                title: 'Lipgloss',
                 description: 'Style definitions for nice terminal layouts.',
                 icon: 'akar-icons--sparkles',
                 href: 'https://github.com/Broderick-Westrope/lipgloss',
             },
             {
-                text: 'Bubbles',
+                title: 'Bubbles',
                 description: 'TUI components for Bubble Tea.',
                 icon: 'akar-icons--grid',
                 href: 'https://github.com/charmbracelet/bubbles',
@@ -32,16 +32,16 @@ export const projectData: ProjectData = [
     },
     {
         title: 'Eventurely',
-        subtitle: 'An ongoing, large-scale personal project. Eventurely is a platform for creating, managing, and sharing personal events. This is still in the early stages of development, but you can view some of the source code on GitHub.',
+        description: 'An ongoing, large-scale personal project. Eventurely is a platform for creating, managing, and sharing personal events. This is still in the early stages of development, but you can view some of the source code on GitHub.',
         projects: [
             {
-                text: 'Core',
+                title: 'Core',
                 description: 'An ASP.NET web API containing the bulk of the functionality. This will support all front-end clients.',
                 icon: 'akar-icons--computing',
                 href: 'https://github.com/Broderick-Westrope/eventurely-core',
             },
             {
-                text: 'Web',
+                title: 'Web',
                 description: 'A Nuxt front-end client for Eventurely. This will be the primary way to interact with the platform.',
                 icon: 'akar-icons--globe',
                 href: 'https://github.com/Broderick-Westrope/eventurely-nuxt',

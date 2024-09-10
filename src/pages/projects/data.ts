@@ -46,6 +46,12 @@ export const projectData: ProjectGroup[] = [
                 icon: 'akar-icons--globe',
                 href: 'https://github.com/Broderick-Westrope/eventurely-nuxt',
             },
+            {
+                title: 'Auth',
+                description: 'A simple auth server using SuperTokens. This will be used to authenticate users across all front-end clients.',
+                icon: 'akar-icons--lock-on',
+                href: 'https://github.com/Broderick-Westrope/eventurely-nuxt',
+            },
         ],
     },
 ]

@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import siteConfig from "@/site-config";
   import { getLinkTarget } from "@/utils/link";
+  import ThemeController from "./ThemeController.svelte";
 
   let scroll = 0;
   let oldScroll = 0;
@@ -125,7 +126,7 @@
       href="/rss.xml"
       aria-label="RSS"
     />
-    <!-- <ThemeController /> -->
+    <ThemeController />
   </div>
 </header>
 <nav

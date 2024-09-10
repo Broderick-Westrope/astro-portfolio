@@ -22,14 +22,10 @@
     // Check for the saved theme in localStorage
     const storedTheme = localStorage.getItem("theme");
 
-    if (
-      storedTheme === "light" ||
-      (!storedTheme &&
-        window.matchMedia("(prefers-color-scheme: light)").matches)
-    ) {
-      isDark.set(false);
-    } else {
+    if (storedTheme === "dark") {
       isDark.set(true);
+    } else {
+      isDark.set(false);
     }
 
     // Update local storage whenever the theme changes

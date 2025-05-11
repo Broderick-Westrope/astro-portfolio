@@ -18,5 +18,5 @@ export type ProjectData = {
     title: string
     description: string | null
     icon?: string
-    href: string
+    href?: string
 }

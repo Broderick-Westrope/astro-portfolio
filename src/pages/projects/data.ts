@@ -10,6 +10,17 @@ export const projectData: ProjectGroup[] = [
                 icon: 'akar-icons--game-controller',
                 href: 'https://github.com/Broderick-Westrope/tetrigo',
             },
+            {
+                title: 'Amalgo',
+                description: 'CLI tool for creating single-file snapshots of multiple (code) files.',
+                icon: 'akar-icons--file',
+                href: 'https://github.com/Broderick-Westrope/amalgo',
+            },
+            {
+                title: 'Soothe',
+                description: 'A mobile app created to help people managing chronic pain. This is a BIG deal and a work-in-progress; keep an eye out for more information.',
+                icon: 'akar-icons--health',
+            },
         ],
     },
     {

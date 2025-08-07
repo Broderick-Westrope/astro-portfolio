@@ -149,7 +149,9 @@
                 />
             </div>
             <div class="flex justify-between items-center">
-                <label for="pool-input" class="font-medium">Pool size:</label>
+                <label for="pool-input" class="font-medium"
+                    >Desired pool size:</label
+                >
                 <input
                     id="pool-input"
                     type="number"

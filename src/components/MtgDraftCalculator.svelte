@@ -4,10 +4,18 @@
     // Reactive state
     let players = 8;
     let cubeSize = 360;
-    let poolSize = 45;
+    let desiredPoolSize = 45;
+    let maxCardsPerPack = 20;
+    let maxPacksPerPlayer = 15;
 
     // Derived reactive values
-    $: config = findOptimalConfiguration(players, cubeSize, poolSize);
+    $: config = findOptimalConfiguration(
+        players,
+        cubeSize,
+        desiredPoolSize,
+        maxPacksPerPlayer,
+        maxCardsPerPack,
+    );
     $: verificationClass = getVerificationClass(config);
 
     // Calculate cards seen per pack based on draft mechanics.
@@ -26,9 +34,11 @@
     function findOptimalConfiguration(
         players: number,
         cubeSize: number,
-        poolSize: number,
+        desiredPoolSize: number,
+        maxPacksPerPlayer: number,
+        maxCardsPerPack: number,
     ) {
-        if (players <= 0 || cubeSize <= 0 || poolSize <= 0) {
+        if (players <= 0 || cubeSize <= 0 || desiredPoolSize <= 0) {
             return null;
         }
 
@@ -36,25 +46,33 @@
         let bestScore = -1;
 
         // Try different pack counts.
-        for (let packs = 1; packs <= 15; packs++) {
+        for (let packs = 1; packs <= maxPacksPerPlayer; packs++) {
             // Try different cards per pack values.
-            for (let cards = 1; cards <= 20; cards++) {
+            for (let cards = 1; cards <= maxCardsPerPack; cards++) {
                 const seenPerPack = calculateSeenPerPack(players, cards);
                 const totalSeen = seenPerPack * packs;
-                const burn = cards - poolSize / packs;
+
+                // Calculate burn as integer and derive actual pool size.
+                const idealBurn = cards - desiredPoolSize / packs;
+                const burn = Math.round(idealBurn);
+                const actualPoolSize = packs * (cards - burn);
                 const cardsUsed = packs * cards * players;
 
-                // Skip configurations that exceed cube size or have negative burn.
+                // Skip configurations that exceed cube size or have invalid burn.
                 if (cardsUsed > cubeSize || burn < 0 || burn > 10) {
                     continue;
                 }
 
                 // Score based on maximizing cards seen while staying within cube limit.
                 const utilization = cardsUsed / cubeSize;
-                const seenScore = totalSeen / cubeSize; // Normalize around typical target.
+                const seenScore = totalSeen / cubeSize;
                 const burnPenalty = burn * 0.1;
+                const poolSizeDifference =
+                    Math.abs(actualPoolSize - desiredPoolSize) /
+                    desiredPoolSize;
 
-                const score = seenScore + utilization - burnPenalty;
+                const score =
+                    seenScore + utilization - burnPenalty - poolSizeDifference;
 
                 if (score > bestScore) {
                     bestScore = score;
@@ -65,6 +83,7 @@
                         burn: burn,
                         used: cardsUsed,
                         utilization: utilization,
+                        poolSize: actualPoolSize,
                     };
                 }
             }
@@ -89,7 +108,7 @@
     ) {
         players = presetPlayers;
         cubeSize = presetCubeSize;
-        poolSize = presetPoolSize;
+        desiredPoolSize = presetPoolSize;
     }
 </script>
 
@@ -115,7 +134,6 @@
                     type="number"
                     bind:value={players}
                     min="1"
-                    max="12"
                     class="input input-primary"
                 />
             </div>
@@ -127,8 +145,6 @@
                     id="cube-size-input"
                     type="number"
                     bind:value={cubeSize}
-                    min="180"
-                    max="720"
                     class="input input-primary"
                 />
             </div>
@@ -137,9 +153,32 @@
                 <input
                     id="pool-input"
                     type="number"
-                    bind:value={poolSize}
-                    min="30"
-                    max="60"
+                    bind:value={desiredPoolSize}
+                    min="1"
+                    class="input input-primary"
+                />
+            </div>
+            <div class="flex justify-between items-center">
+                <label for="max-cards-input" class="font-medium"
+                    >Max cards per pack:</label
+                >
+                <input
+                    id="max-cards-input"
+                    type="number"
+                    bind:value={maxCardsPerPack}
+                    min="1"
+                    class="input input-primary"
+                />
+            </div>
+            <div class="flex justify-between items-center">
+                <label for="max-packs-input" class="font-medium"
+                    >Max packs per player:</label
+                >
+                <input
+                    id="max-packs-input"
+                    type="number"
+                    bind:value={maxPacksPerPlayer}
+                    min="1"
                     class="input input-primary"
                 />
             </div>
@@ -169,45 +208,47 @@
                 <div
                     class="bg-blue-100 text-secondary-content p-4 rounded-xl border-l-4 border-secondary"
                 >
-                    <div class="text-sm font-medium mb-2">
-                        Cards seen per player:
-                    </div>
-                    <div class="text-2xl font-bold">
-                        {config.seen}
-                    </div>
-                </div>
-                <div
-                    class="bg-blue-100 text-secondary-content p-4 rounded-xl border-l-4 border-secondary"
-                >
                     <div class="text-sm font-medium mb-2">Burn per pack:</div>
                     <div class="text-2xl font-bold">
                         {config.burn}
                     </div>
                 </div>
-            </div>
-
-            <div
-                class="p-4 rounded-xl border-l-4 flex justify-between items-center flex-wrap
-          {verificationClass === 'error'
-                    ? 'border-error bg-red-50'
-                    : verificationClass === 'warning'
-                      ? 'border-warning bg-orange-50'
-                      : 'border-success bg-green-50'}"
-            >
-                <span class="font-medium text-gray-600">Cards used:</span>
-                <span
-                    class="text-xl font-bold
-            {verificationClass === 'error'
-                        ? 'text-content'
-                        : verificationClass === 'warning'
-                          ? 'text-warning-content'
-                          : 'text-success-content'}"
+                <div
+                    class="bg-blue-100 text-secondary-content p-4 rounded-xl border-l-4 border-secondary"
                 >
-                    {config.used}/{cubeSize}
-                </span>
-                <span class="text-sm text-gray-600">
-                    (utilization: {Math.round(config.utilization * 100)}%)
-                </span>
+                    <div class="text-sm font-medium mb-2">Pool size:</div>
+                    <div class="text-2xl font-bold">
+                        {config.poolSize}
+                    </div>
+                </div>
+                <div
+                    class="bg-blue-100 text-secondary-content p-4 rounded-xl border-l-4 border-secondary"
+                >
+                    <div class="text-sm font-medium mb-2">
+                        Cards seen per player:
+                    </div>
+                    <div class="text-2xl font-bold">
+                        {config.seen} ({Math.round(
+                            (config.seen / cubeSize) * 100,
+                        )}%)
+                    </div>
+                </div>
+                <div
+                    class="bg-blue-100 text-secondary-content p-4 rounded-xl border-l-4 border-secondary"
+                >
+                    <div class="text-sm font-medium mb-2">Cards used:</div>
+                    <div class="text-2xl font-bold">
+                        {config.used} ({Math.round(config.utilization * 100)}%)
+                    </div>
+                </div>
+            </div>
+        {:else}
+            <div>
+                Failed to calculate. Make sure the desired pool size ({desiredPoolSize})
+                is less than the cube size ({cubeSize}) divided by the player
+                count ({players}). Your maximum pool size for these values is {Math.floor(
+                    cubeSize / players,
+                )}
             </div>
         {/if}
     </div>

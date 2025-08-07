@@ -17,6 +17,12 @@ export const projectData: ProjectGroup[] = [
                 href: 'https://github.com/Broderick-Westrope/amalgo',
             },
             {
+                title: 'MTG Draft Calculator',
+                description: 'A simple web page for players of the card game "Magic: the Gathering".',
+                icon: 'akar-icons--calculator',
+                href: 'https://www.westrope.dev/mtg-draft-calculator',
+            },
+            {
                 title: 'Soothe',
                 description: 'A mobile app created to help people managing chronic pain. This is a BIG deal and a work-in-progress; keep an eye out for more information.',
                 icon: 'akar-icons--health',

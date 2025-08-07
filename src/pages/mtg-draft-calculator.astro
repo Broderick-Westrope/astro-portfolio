@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Calculator from "@/components/MtgDraftCalculator.svelte";
+---
+
+<BaseLayout
+    title="MTG Draft Calculator"
+    description="Calculate optimal pack configurations for Magic: The Gathering draft formats with cube constraints."
+>
+    <Calculator client:load />
+
+    <div class="mt-10 max-w-2xl mx-auto space-y-6">
+        <div>
+            <h2 class="text-2xl font-semibold mb-3">What is this?</h2>
+            <p>
+                This tool optimizes <em>Magic: The Gathering</em> cube draft configurations.
+                Input your player count, cube size, and desired pool size to automatically
+                calculate the optimal number of packs, cards per pack, and burn rate.
+                It features preset configurations for common draft formats and real-time
+                validation to ensure your setup stays within cube constraints while
+                maximizing card variety for each player.
+            </p>
+        </div>
+
+        <div>
+            <h3 class="text-2xl font-medium mb-2">What's a Cube?</h3>
+            <p>
+                If you're unfamiliar with what a <a
+                    class="link text-primary hover:text-secondary"
+                    href="https://www.reddit.com/r/mtgcube/"
+                    target="_blank"
+                    rel="noopener noreferrer">Cube</a
+                >
+                is, it's essentially a custom-made draft environment. For this tool,
+                think of "cube size" as the total number of cards available for the
+                draft. For example, a traditional 8-person draft with 15-card booster
+                packs (3 packs each) uses 360 cards total.
+            </p>
+        </div>
+
+        <div>
+            <h3 class="text-2xl font-medium mb-2">Pool Size</h3>
+            <p>
+                The pool size is the number of cards each player will have after
+                drafting. This isn't their final deck size, but rather the total
+                cards they can choose from when building their deck.
+            </p>
+        </div>
+
+        <div>
+            <h3 class="text-2xl font-medium mb-2">Burn Cards</h3>
+            <p>
+                "Burn" refers to cards discarded from packs after everyone has
+                picked. Some call this "pack discard." For example, if a pack
+                starts with 15 cards and burns 5, players pick and pass until 5
+                cards remain—these get discarded. Burning cards lets smaller
+                groups experience the same card variety as larger drafts without
+                inflating individual pool sizes.
+            </p>
+        </div>
+    </div>
+</BaseLayout>

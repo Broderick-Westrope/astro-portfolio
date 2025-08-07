@@ -1,4 +1,6 @@
-const { addIconSelectors } = require('@iconify/tailwind')
+import { addIconSelectors } from '@iconify/tailwind'
+import daisyui from 'daisyui'
+import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -7,9 +9,9 @@ export default {
   ],
   theme: {},
   plugins: [
-    require('daisyui'),
+    daisyui,
     addIconSelectors(['akar-icons']),
-    require('@tailwindcss/typography'),
+    typography,
   ],
   daisyui: {
     themes: [

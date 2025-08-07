@@ -7,6 +7,7 @@
     let desiredPoolSize = 45;
     let maxCardsPerPack = 20;
     let maxPacksPerPlayer = 15;
+    let maxCardsSeen = 0;
 
     // Derived reactive values
     $: config = findOptimalConfiguration(
@@ -15,8 +16,8 @@
         desiredPoolSize,
         maxPacksPerPlayer,
         maxCardsPerPack,
+        maxCardsSeen,
     );
-    $: verificationClass = getVerificationClass(config);
 
     // Calculate cards seen per pack based on draft mechanics.
     function calculateSeenPerPack(
@@ -37,6 +38,7 @@
         desiredPoolSize: number,
         maxPacksPerPlayer: number,
         maxCardsPerPack: number,
+        maxCardsSeen: number,
     ) {
         if (players <= 0 || cubeSize <= 0 || desiredPoolSize <= 0) {
             return null;
@@ -58,21 +60,35 @@
                 const actualPoolSize = packs * (cards - burn);
                 const cardsUsed = packs * cards * players;
 
-                // Skip configurations that exceed cube size or have invalid burn.
-                if (cardsUsed > cubeSize || burn < 0 || burn > 10) {
+                // Skip configurations that exceed cube size, have invalid burn, or exceed a max value.
+                if (
+                    cardsUsed > cubeSize ||
+                    totalSeen <= 0 ||
+                    burn < 0 ||
+                    (maxCardsSeen > 0 && totalSeen > maxCardsSeen)
+                ) {
                     continue;
                 }
 
                 // Score based on maximizing cards seen while staying within cube limit.
                 const utilization = cardsUsed / cubeSize;
-                const seenScore = totalSeen / cubeSize;
+                let seenScore = totalSeen / cubeSize;
+
+                // When maxCardsSeen is specified, prefer configurations closer to that target.
+                if (maxCardsSeen > 0) {
+                    const seenTargetPenalty =
+                        (Math.abs(totalSeen - maxCardsSeen) / maxCardsSeen) *
+                        0.5;
+                    seenScore -= seenTargetPenalty;
+                }
+
                 const burnPenalty = burn * 0.1;
-                const poolSizeDifference =
+                const poolSizePenalty =
                     Math.abs(actualPoolSize - desiredPoolSize) /
                     desiredPoolSize;
 
                 const score =
-                    seenScore + utilization - burnPenalty - poolSizeDifference;
+                    seenScore + utilization - (burnPenalty + poolSizePenalty);
 
                 if (score > bestScore) {
                     bestScore = score;
@@ -90,14 +106,6 @@
         }
 
         return bestConfig;
-    }
-
-    // Determine verification status based on utilization.
-    function getVerificationClass(config: any): string {
-        if (!config) return "";
-        if (config.utilization > 1.0) return "error";
-        if (config.utilization < 0.7) return "warning";
-        return "";
     }
 
     // Load preset configuration.
@@ -124,7 +132,7 @@
     <div class="p-5 border-b border-primary">
         <h3 class="text-xl font-semibold text-content mb-4">Inputs</h3>
         <div class="space-y-4 text-base-content">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center space-x-2">
                 <label for="players-input" class="font-medium"
                     >Number of players:</label
                 >
@@ -134,10 +142,10 @@
                     type="number"
                     bind:value={players}
                     min="1"
-                    class="input input-primary"
+                    class="input input-primary w-20"
                 />
             </div>
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center space-x-2">
                 <label for="cube-size-input" class="font-medium"
                     >Cube size:</label
                 >
@@ -145,10 +153,10 @@
                     id="cube-size-input"
                     type="number"
                     bind:value={cubeSize}
-                    class="input input-primary"
+                    class="input input-primary w-20"
                 />
             </div>
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center space-x-2">
                 <label for="pool-input" class="font-medium"
                     >Desired pool size:</label
                 >
@@ -157,10 +165,10 @@
                     type="number"
                     bind:value={desiredPoolSize}
                     min="1"
-                    class="input input-primary"
+                    class="input input-primary w-20"
                 />
             </div>
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center space-x-2">
                 <label for="max-cards-input" class="font-medium"
                     >Max cards per pack:</label
                 >
@@ -169,10 +177,10 @@
                     type="number"
                     bind:value={maxCardsPerPack}
                     min="1"
-                    class="input input-primary"
+                    class="input input-primary w-20"
                 />
             </div>
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center space-x-2">
                 <label for="max-packs-input" class="font-medium"
                     >Max packs per player:</label
                 >
@@ -181,7 +189,25 @@
                     type="number"
                     bind:value={maxPacksPerPlayer}
                     min="1"
-                    class="input input-primary"
+                    class="input input-primary w-20"
+                />
+            </div>
+            <div
+                class="tooltip flex justify-between items-center space-x-2"
+                data-tip="The maximum number of cards that each players will be able to pick from during the draft. Ignored when the value is zero or less."
+            >
+                <label for="max-cards-seen-input" class="font-medium"
+                    >Max cards seen per player:</label
+                >
+                <input
+                    id="max-cards-seen-input"
+                    type="number"
+                    bind:value={maxCardsSeen}
+                    min="1"
+                    max={cubeSize}
+                    class="input {maxCardsSeen > 0
+                        ? 'input-primary'
+                        : 'input-disabled'} w-20"
                 />
             </div>
         </div>
@@ -246,11 +272,26 @@
             </div>
         {:else}
             <div>
-                Failed to calculate. Make sure the desired pool size ({desiredPoolSize})
-                is less than the cube size ({cubeSize}) divided by the player
-                count ({players}). Your maximum pool size for these values is {Math.floor(
-                    cubeSize / players,
-                )}
+                Failed to calculate.
+
+                {#if Math.floor(cubeSize / players) < desiredPoolSize}
+                    <br />
+                    It seems your desired pool size ({desiredPoolSize}) is
+                    greater than the cube size ({cubeSize}) divided by the
+                    player count ({players}). With these settings you pool size
+                    cannot exceeed {Math.floor(cubeSize / players)}.
+                {:else}
+                    Some reasons may be:
+                    <ul class="list-disc list-inside">
+                        <li>Max cards per pack is too low.</li>
+                        <li>Max packs per player is too low.</li>
+                        <li>
+                            Desired pool size is too low relative to the max
+                            cards seen per player. Try increasing the max cards
+                            seen or decreasing the desired pool size.
+                        </li>
+                    </ul>
+                {/if}
             </div>
         {/if}
     </div>

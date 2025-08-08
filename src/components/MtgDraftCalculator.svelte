@@ -4,17 +4,28 @@
     // Reactive state
     let players = 8;
     let cubeSize = 360;
-    let desiredPoolSize = 45;
     let maxCardsPerPack = 20;
     let maxPacksPerPlayer = 15;
-    let maxCardsSeen = 0;
 
-    // Clamp the desired pool size
+    // Clamped desired pool size
+    let desiredPoolSize = 45;
     $: {
         if (desiredPoolSize < 0) {
             desiredPoolSize = 0;
         } else if (desiredPoolSize > cubeSize) {
             desiredPoolSize = cubeSize;
+        }
+    }
+
+    // Clamped utilisation limit
+    let utilisationLimitMode = "None";
+    let utilisationLimit = 0;
+    let utilisationHardLimit = true;
+    $: {
+        if (utilisationLimit < 0) {
+            utilisationLimit = 0;
+        } else if (utilisationLimit > cubeSize) {
+            utilisationLimit = cubeSize;
         }
     }
 
@@ -25,7 +36,9 @@
         desiredPoolSize,
         maxPacksPerPlayer,
         maxCardsPerPack,
-        maxCardsSeen,
+        utilisationLimitMode,
+        utilisationLimit,
+        utilisationHardLimit,
     );
 
     // Calculate cards seen per pack based on draft mechanics.
@@ -47,7 +60,9 @@
         desiredPoolSize: number,
         maxPacksPerPlayer: number,
         maxCardsPerPack: number,
-        maxCardsSeen: number,
+        utilisationLimitMode: string,
+        utilisationLimit: number,
+        utilisationHardLimit: boolean,
     ) {
         if (players <= 0 || cubeSize <= 0 || desiredPoolSize <= 0) {
             return null;
@@ -69,26 +84,42 @@
                 const actualPoolSize = packs * (cards - burn);
                 const cardsUsed = packs * cards * players;
 
-                // Skip configurations that exceed cube size, have invalid burn, or exceed a max value.
-                if (
-                    cardsUsed > cubeSize ||
-                    totalSeen <= 0 ||
-                    burn < 0 ||
-                    (maxCardsSeen > 0 && totalSeen > maxCardsSeen)
-                ) {
+                // Skip configurations that exceed cube size, have invalid burn, or exceed hard limits.
+                if (cardsUsed > cubeSize || totalSeen <= 0 || burn < 0) {
                     continue;
+                }
+
+                // Apply hard limits if enabled.
+                if (utilisationHardLimit) {
+                    if (
+                        (utilisationLimitMode === "Cards Used" &&
+                            cardsUsed > utilisationLimit) ||
+                        (utilisationLimitMode === "Cards Seen" &&
+                            totalSeen > utilisationLimit)
+                    ) {
+                        continue;
+                    }
                 }
 
                 // Score based on maximizing cards seen while staying within cube limit.
                 const utilization = cardsUsed / cubeSize;
-                let seenScore = totalSeen / cubeSize;
+                let score = totalSeen / cubeSize;
 
-                // When maxCardsSeen is specified, prefer configurations closer to that target.
-                if (maxCardsSeen > 0) {
-                    const seenTargetPenalty =
-                        (Math.abs(totalSeen - maxCardsSeen) / maxCardsSeen) *
-                        0.5;
-                    seenScore -= seenTargetPenalty;
+                // Apply approximation penalties if soft limits are enabled.
+                if (!utilisationHardLimit && utilisationLimit > 0) {
+                    if (utilisationLimitMode === "Cards Used") {
+                        const usedTargetPenalty =
+                            (Math.abs(cardsUsed - utilisationLimit) /
+                                utilisationLimit) *
+                            0.5;
+                        score -= usedTargetPenalty;
+                    } else if (utilisationLimitMode === "Cards Seen") {
+                        const seenTargetPenalty =
+                            (Math.abs(totalSeen - utilisationLimit) /
+                                utilisationLimit) *
+                            0.5;
+                        score -= seenTargetPenalty;
+                    }
                 }
 
                 const burnPenalty = burn * 0.1;
@@ -96,8 +127,7 @@
                     Math.abs(actualPoolSize - desiredPoolSize) /
                     desiredPoolSize;
 
-                const score =
-                    seenScore + utilization - (burnPenalty + poolSizePenalty);
+                score += utilization - (burnPenalty + poolSizePenalty);
 
                 if (score > bestScore) {
                     bestScore = score;
@@ -141,7 +171,7 @@
     <div class="p-5 border-b border-primary">
         <h3 class="text-xl font-semibold text-content mb-4">Inputs</h3>
         <div class="space-y-4 text-base-content">
-            <div class="flex justify-between items-center space-x-2">
+            <div class="flex justify-between items-center space-x-4">
                 <label for="players-input" class="font-medium"
                     >Number of Players:</label
                 >
@@ -154,7 +184,7 @@
                 />
             </div>
 
-            <div class="flex justify-between items-center space-x-2">
+            <div class="flex justify-between items-center space-x-4">
                 <label for="cube-size-input" class="font-medium"
                     >Cube Size:</label
                 >
@@ -177,11 +207,13 @@
                     min="1"
                     class="input input-primary w-20"
                 />
-                <script>
-                </script>
             </div>
 
-            <div class="flex justify-between items-center space-x-2">
+            <div class="flex flex-col">
+                <div class="divider divider-accent">Pack Limits</div>
+            </div>
+
+            <div class="flex justify-between items-center space-x-4">
                 <label for="max-cards-input" class="font-medium"
                     >Max Cards per Pack:</label
                 >
@@ -194,7 +226,7 @@
                 />
             </div>
 
-            <div class="flex justify-between items-center space-x-2">
+            <div class="flex justify-between items-center space-x-4">
                 <label for="max-packs-input" class="font-medium"
                     >Max Packs per Player:</label
                 >
@@ -207,22 +239,40 @@
                 />
             </div>
 
-            <div
-                class="tooltip flex justify-between items-center space-x-2"
-                data-tip="The maximum number of cards that each players will be able to pick from during the draft. Ignored when the value is zero or less."
-            >
-                <label for="max-cards-seen-input" class="font-medium text-start"
-                    >Max Cards Seen per Player:</label
+            <div class="flex flex-col">
+                <div class="divider divider-accent">Utilisation Limits</div>
+            </div>
+
+            <div class="flex justify-between items-center space-x-4">
+                <select
+                    class="select select-primary grow"
+                    bind:value={utilisationLimitMode}
+                >
+                    <option selected>None</option>
+                    <option>Cards Used</option>
+                    <option>Cards Seen</option>
+                </select>
+
+                <input
+                    type="number"
+                    bind:value={utilisationLimit}
+                    min="1"
+                    disabled={utilisationLimitMode === "None"}
+                    max={cubeSize}
+                    class="input input-primary w-20"
+                />
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <label for="hard-limit-toggle" class="font-medium"
+                    >Hard Limit:</label
                 >
                 <input
-                    id="max-cards-seen-input"
-                    type="number"
-                    bind:value={maxCardsSeen}
-                    min="1"
-                    max={cubeSize}
-                    class="input {maxCardsSeen > 0
-                        ? 'input-primary'
-                        : 'input-disabled'} w-20"
+                    id="hard-limit-toggle"
+                    type="checkbox"
+                    bind:checked={utilisationHardLimit}
+                    disabled={utilisationLimitMode === "None"}
+                    class="toggle toggle-primary"
                 />
             </div>
         </div>

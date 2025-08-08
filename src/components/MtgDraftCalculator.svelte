@@ -9,6 +9,15 @@
     let maxPacksPerPlayer = 15;
     let maxCardsSeen = 0;
 
+    // Clamp the desired pool size
+    $: {
+        if (desiredPoolSize < 0) {
+            desiredPoolSize = 0;
+        } else if (desiredPoolSize > cubeSize) {
+            desiredPoolSize = cubeSize;
+        }
+    }
+
     // Derived reactive values
     $: config = findOptimalConfiguration(
         players,
@@ -134,9 +143,8 @@
         <div class="space-y-4 text-base-content">
             <div class="flex justify-between items-center space-x-2">
                 <label for="players-input" class="font-medium"
-                    >Number of players:</label
+                    >Number of Players:</label
                 >
-
                 <input
                     id="players-input"
                     type="number"
@@ -145,9 +153,10 @@
                     class="input input-primary w-20"
                 />
             </div>
+
             <div class="flex justify-between items-center space-x-2">
                 <label for="cube-size-input" class="font-medium"
-                    >Cube size:</label
+                    >Cube Size:</label
                 >
                 <input
                     id="cube-size-input"
@@ -156,9 +165,10 @@
                     class="input input-primary w-20"
                 />
             </div>
-            <div class="flex justify-between items-center space-x-2">
+
+            <div class="flex justify-between items-center space-x-4">
                 <label for="pool-input" class="font-medium"
-                    >Desired pool size:</label
+                    >Desired Pool Size:</label
                 >
                 <input
                     id="pool-input"
@@ -167,10 +177,13 @@
                     min="1"
                     class="input input-primary w-20"
                 />
+                <script>
+                </script>
             </div>
+
             <div class="flex justify-between items-center space-x-2">
                 <label for="max-cards-input" class="font-medium"
-                    >Max cards per pack:</label
+                    >Max Cards per Pack:</label
                 >
                 <input
                     id="max-cards-input"
@@ -180,9 +193,10 @@
                     class="input input-primary w-20"
                 />
             </div>
+
             <div class="flex justify-between items-center space-x-2">
                 <label for="max-packs-input" class="font-medium"
-                    >Max packs per player:</label
+                    >Max Packs per Player:</label
                 >
                 <input
                     id="max-packs-input"
@@ -192,12 +206,13 @@
                     class="input input-primary w-20"
                 />
             </div>
+
             <div
                 class="tooltip flex justify-between items-center space-x-2"
                 data-tip="The maximum number of cards that each players will be able to pick from during the draft. Ignored when the value is zero or less."
             >
-                <label for="max-cards-seen-input" class="font-medium"
-                    >Max cards seen per player:</label
+                <label for="max-cards-seen-input" class="font-medium text-start"
+                    >Max Cards Seen per Player:</label
                 >
                 <input
                     id="max-cards-seen-input"
@@ -273,8 +288,9 @@
         {:else}
             <div>
                 Failed to calculate.
-
-                {#if Math.floor(cubeSize / players) < desiredPoolSize}
+                {#if desiredPoolSize <= 0}
+                    Your pool size must be greater than zero.
+                {:else if Math.floor(cubeSize / players) < desiredPoolSize}
                     <br />
                     It seems your desired pool size ({desiredPoolSize}) is
                     greater than the cube size ({cubeSize}) divided by the

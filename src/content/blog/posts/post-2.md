@@ -1,7 +1,7 @@
 ---
-title: Prompt Flows - What Are They?
-description: Prompt flows are directed acyclic graphs (DAGs) that decompose complex LLM tasks into single-responsibility nodes, each handling one classification or generation operation by templating a system prompt and querying a language model. Microsoft Azure AI Foundry and Amazon Bedrock Flows provide managed implementations, but the underlying concept is cloud-agnostic: nodes execute in dependency order (with parallelization where possible), passing outputs as inputs to downstream nodes, enabling modular prompt design that improves debuggability, reusability, and maintainability compared to monolithic prompts. This article explains prompt flow architecture through a practical support ticket triage system that classifies urgency and department, retrieves relevant FAQs, and drafts responses across four isolated nodes, demonstrating why separating concerns into a graph structure produces more robust LLM applications than single-prompt solutions.
-date: 2025-11-10
+title: "Prompt Flows - What Are They?"
+description: "Prompt flows are directed acyclic graphs (DAGs) that decompose complex LLM tasks into single-responsibility nodes, each handling one classification or generation operation by templating a system prompt and querying a language model. Microsoft Azure AI Foundry and Amazon Bedrock Flows provide managed implementations, but the underlying concept is cloud-agnostic: nodes execute in dependency order (with parallelization where possible), passing outputs as inputs to downstream nodes, enabling modular prompt design that improves debuggability, reusability, and maintainability compared to monolithic prompts. This article explains prompt flow architecture through a practical support ticket triage system that classifies urgency and department, retrieves relevant FAQs, and drafts responses across four isolated nodes, demonstrating why separating concerns into a graph structure produces more robust LLM applications than single-prompt solutions."
+date: "2025-11-10"
 draft: true
 ---
 
@@ -95,7 +95,8 @@ The circles at the top and bottom are the start and end of the flow, respectivel
 **Input:**
 
 - `ticket_text` - This comes from the user's input into the ticket creation system, which is beyond the scope of this article.
-  **Prompt:**
+
+**Prompt:**
 
 ```
 The user has submitted the following ticket:
@@ -113,7 +114,8 @@ Classify the ticket's urgency into either high, medium, or low. Output only the 
 **Input:**
 
 - `ticket_text` - The same input as Node 1.
-  **Prompt:**
+
+**Prompt:**
 
 ```
 The user has submitted the following ticket:
@@ -132,7 +134,8 @@ Classify the ticket by department into either billing, engineering, or sales. Ou
 
 - `ticket_text` - The same input as Node 1 and Node 2.
 - `department` - The output from Node 2.
-  **Prompt:**
+
+**Prompt:**
 
 ```
 The user has submitted the following ticket:
@@ -153,7 +156,8 @@ Extract up to 3 FAQs (both question and response) from the knowledge base of dep
 - `urgency_level` - The output from Node 1.
 - `department` - The output from Node 2.
 - `faqs` - The output from Node 3
-  **Prompt:**
+
+**Prompt:**
 
 ```
 Draft a professional response to this support ticket.

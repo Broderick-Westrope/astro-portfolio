@@ -1,21 +1,22 @@
 ---
 title: "Prompt Flows - What Are They?"
-description: "Prompt flows are directed acyclic graphs (DAGs) that decompose complex LLM tasks into single-responsibility nodes, each handling one classification or generation operation by templating a system prompt and querying a language model. Microsoft Azure AI Foundry and Amazon Bedrock Flows provide managed implementations, but the underlying concept is cloud-agnostic: nodes execute in dependency order (with parallelization where possible), passing outputs as inputs to downstream nodes, enabling modular prompt design that improves debuggability, reusability, and maintainability compared to monolithic prompts. This article explains prompt flow architecture through a practical support ticket triage system that classifies urgency and department, retrieves relevant FAQs, and drafts responses across four isolated nodes, demonstrating why separating concerns into a graph structure produces more robust LLM applications than single-prompt solutions."
+description: "Prompt flows decompose complex LLM tasks into modular, single-responsibility nodes connected as directed acyclic graphs, enabling parallel execution, isolated debugging, and reusable components across systems. This architecture replaces monolithic prompts with maintainable pipelines where each node handles one classification or generation task using simple, testable prompts."
 date: "2025-11-10"
-draft: true
+draft: false
 ---
-
-# Prompt Flows - What are they?
 
 _Prerequisite Knowledge:_
 
 - You do **not** need to have an understanding of any cloud services.
-- You do need to have a high level understanding of what an LLM (Large Language Model) is, how you can have several instances of a single model, and what a system prompt is.
-- It will also help to know what a DAG (Directed Acyclic Graph) is.
+- You do need to have a high level understanding of what an LLM ([Large Language Model](https://www.youtube.com/watch?v=5sLYAQS9sWQ)) is, how you can have several instances of a single model, and what a system prompt is.
+- It will also help to know what a DAG ([Directed Acyclic Graph](https://www.youtube.com/watch?v=1Yh5S-S6wsI)) is.
 
 Since the launch of ChatGPT, as the AI craze has been washing over us, Microsoft has been launching AI features within Azure. Many of these live in what's currently called "Azure AI Foundry", a hub for AI tools that tries to be more user friendly than the traditional Azure Portal website.
 
-Foundry, at it's core, is a wrapper around new and existing Azure offerings. It allows you to deploy and test different LLMs, [insert more cases here], _and_ it allows you to create what's known as Prompt Flows. This is just the name Microsoft has given them; Amazon has called their equivalent Bedrock Flows. My goal is to help you understand what this service is by breaking it down into smaller components, as is best when approaching new, ambiguous/overwhelming things.
+Foundry, at it's core, is a wrapper around new and existing Azure offerings. It provides a suite of tools for working with LLMs in production-level ways. One of these tools is what's known as Prompt Flows. This is just the name Microsoft has given them; Amazon has called their equivalent Bedrock Flows. My goal is to help you understand what this service is by breaking it down into smaller components.
+
+> ⚠️ **_NOTE:_**\
+> I'll use "Prompt Flows" to talk about the Microsoft product and "prompt flows" (lowercase) to talk about the concept.
 
 ## An Example Scenario
 
@@ -53,20 +54,22 @@ The system prompt leverages what's known as a templating language. Simply put, t
 
 ```
 The user has submitted the following ticket:
-{ticket_text}
+{{ticket_text}}
 
 Classify the ticket's urgency into either high, medium, or low. Output only the urgency level. Do not format the strings, add a sentence, or change the chosen word in any other way.
 ```
 
 Any inputs can be inserted in this way, which as we've seen already means we can insert the output of other nodes into our system prompt.
 
-> **_NOTE:_** This post uses the Go templating language, but any can be used. For example, Azure Prompt Flows uses the Jinja2 language.
+> ⚠️ **_NOTE:_**\
+> This post uses the Go templating language, but any can be used. For example, Azure Prompt Flows uses the Jinja2 language.
 
 ### 3. Query an LLM
 
 Just as you would send a message to ChatGPT asking whether pineapple belongs on pizza, you can send system prompts created using templating. Since the result of a templated system prompt is just text, it can be sent like any other message to your LLM of choice.
 
-> **_TIP:_** [GitHub Playground](https://github.com/marketplace/models/azure-openai/gpt-4o-mini/playground) is a great place to test system prompts and even lets you query models via an API for **_free_**. It's not for production use, but is perfect for finding the right model and using during development.
+> 💡 **_TIP:_**\
+> [GitHub Playground](https://github.com/marketplace/models/azure-openai/gpt-4o-mini/playground) is a great place to test system prompts and even lets you query models via an API for **_free_**. It's not for production use, but is perfect for finding the right model and using during development.
 
 ### 4. Store the Output
 
@@ -87,7 +90,7 @@ If we built the system from our example scenario without using a prompt flow we 
 
 Instead, we can build a prompt flow that fulfils the requirements of this system and avoids these issues. This diagram helps visualise how the nodes connect, and the descriptions following it will contain a deeper look into each node that explains _why_ the diagram looks like this.
 
-![Alt text](post-2-img-1.png "Optional Title")
+![Alt text](2-img-1.png "Optional Title")
 The circles at the top and bottom are the start and end of the flow, respectively.
 
 ### Node 1: Classify by Urgency
@@ -100,7 +103,7 @@ The circles at the top and bottom are the start and end of the flow, respectivel
 
 ```
 The user has submitted the following ticket:
-{ticket_text}
+{{ticket_text}}
 
 Classify the ticket's urgency into either high, medium, or low. Output only the urgency level. Do not format the strings, add a sentence, or change the chosen word in any other way.
 ```
@@ -119,7 +122,7 @@ Classify the ticket's urgency into either high, medium, or low. Output only the 
 
 ```
 The user has submitted the following ticket:
-{ticket_text}
+{{ticket_text}}
 
 Classify the ticket by department into either billing, engineering, or sales. Output only the department. Do not format the strings, add a sentence, or change the chosen word in any other way.
 ```
@@ -139,14 +142,17 @@ Classify the ticket by department into either billing, engineering, or sales. Ou
 
 ```
 The user has submitted the following ticket:
-{ticket_text}
+{{ticket_text}}
 
-Extract up to 3 FAQs (both question and response) from the knowledge base of department {department} which are relevant to the user's ticket. If there are no tickets that are relevant to the user's ticket then return none.
+Extract up to 3 FAQs (both question and response) from the knowledge base of department {{department}} which are relevant to the user's ticket. If there are no tickets that are relevant to the user's ticket then return none.
 ```
 
 **Output:**
 
-- `faqs` - The prompt above is far more simple than would be used in production systems. Depending on the prompt this output variable could be a JSON list of objects, each containing a question and answer. Or, your knowledge base may not have answers and instead links to relevant web pages. The sky's the limit.
+- `faqs` - The prompt above is far more simple than would be used in production systems. Depending on the prompt this output variable could be a JSON list of objects, each containing a question and answer. Or, your knowledge base may not have answers and instead links to relevant web pages.
+
+> ⚠️ **_NOTE:_**
+> This node does not actually _retrieve_ FAQs since it does not have access to any. In a real-world system we could either provide it with this data via RAG, an MCP server that gives access to a database, or some other method. For the sake of this article, it's fine that this node will hallucinate the FAQs from it's training data.
 
 ### Node 4: Draft a Response
 
@@ -205,7 +211,7 @@ Node 1's urgency classifier can be exported to other ticket systems, chat routin
 
 ### Parallelisation
 
-Nodes 1 and 2 have no dependencies on each other since both consume only the caller input. They can execute concurrently, halving latency compared to sequential execution.
+Nodes 1 and 2 have no dependencies on each other since both consume only the caller input. They can execute concurrently, halving latency compared to sequential execution. Note, this will only happen if the prompt flow engine is written in a language and structure which allows for this.
 
 ### Debugging
 

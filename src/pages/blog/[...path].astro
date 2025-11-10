@@ -1,27 +1,29 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'
-import ListPosts from '@/components/ListPosts.svelte'
-import siteConfig from '@/site-config'
-import { getPosts } from '@/utils/posts'
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ListPosts from "@/components/ListPosts.svelte";
+import siteConfig from "@/site-config";
+import { getPosts } from "@/utils/posts";
 
 export async function getStaticPaths() {
   const paths = siteConfig.page.blogLinks.map((nav) => {
-    const href = nav.href.replace('/blog', '')
+    const href = nav.href.replace("/blog", "");
     return {
       params: {
-        path: href === '' ? undefined : href.replace(/^\/+|\/+$/g, ''),
+        path: href === "" ? undefined : href.replace(/^\/+|\/+$/g, ""),
       },
-    }
-  })
-  return paths
+    };
+  });
+  return paths;
 }
 
-const { path } = Astro.params
+const { path } = Astro.params;
 
-const posts = await getPosts(path)
+const posts = await getPosts(path);
 
 function activeLink(pathname: string) {
-  return Astro.url.pathname.replace(/\/+/g, '/').replace(/\/$/, '') === pathname
+  return (
+    Astro.url.pathname.replace(/\/+/g, "/").replace(/\/$/, "") === pathname
+  );
 }
 ---
 
@@ -36,7 +38,7 @@ function activeLink(pathname: string) {
       siteConfig.page.blogLinks.map((nav) => (
         <a
           aria-label={nav.text}
-          class={`transition-colors duration-200 cursor-pointer text-3xl font-bold ${activeLink(nav.href) ? 'text-secondary' : 'text-accent hover:text-primary'}`}
+          class={`transition-colors duration-200 cursor-pointer text-3xl font-bold ${activeLink(nav.href) ? "text-secondary" : "text-accent hover:text-primary"}`}
           href={nav.href}
         >
           {nav.text}

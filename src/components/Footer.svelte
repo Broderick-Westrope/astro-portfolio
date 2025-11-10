@@ -4,7 +4,7 @@
 </script>
 
 <footer
-  class="w-full mt-20 pt-6 pb-8 max-w-3xl text-sm flex flex-col gap-4 border-t !border-opacity-50"
+  class="w-full mt-20 pt-6 pb-8 max-w-4xl text-sm flex flex-col gap-4 border-t !border-opacity-50"
 >
   {#if siteConfig.footer.navLinks && siteConfig.footer.navLinks.length > 0}
     <div class="flex flex-wrap gap-4">

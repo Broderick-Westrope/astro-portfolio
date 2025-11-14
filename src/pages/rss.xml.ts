@@ -18,11 +18,17 @@ export async function GET(context: Context) {
         description: siteConfig.description,
         site: context.site,
         items: posts!.map((item) => {
+            const html = parser.render(item.body)
+            // Convert relative image URLs to absolute URLs
+            const htmlWithAbsoluteUrls = html.replace(
+                /src="(?!https?:\/\/)([^"]+)"/g,
+                `src="${context.site}$1"`
+            )
             return {
                 ...item.data,
                 link: `${context.site}/posts/${item.slug}/`,
                 pubDate: new Date(item.data.date),
-                content: sanitizeHtml(parser.render(item.body), {
+                content: sanitizeHtml(htmlWithAbsoluteUrls, {
                     allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
                 }),
                 author: `${siteConfig.author} <${siteConfig.email}>`,

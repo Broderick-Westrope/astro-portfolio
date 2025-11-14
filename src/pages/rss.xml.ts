@@ -1,6 +1,10 @@
 import rss from '@astrojs/rss'
 import siteConfig from '@/site-config'
 import { getPosts } from '@/utils/posts'
+import sanitizeHtml from 'sanitize-html'
+import MarkdownIt from 'markdown-it'
+
+const parser = new MarkdownIt()
 
 interface Context {
     site: string
@@ -18,7 +22,9 @@ export async function GET(context: Context) {
                 ...item.data,
                 link: `${context.site}/posts/${item.slug}/`,
                 pubDate: new Date(item.data.date),
-                content: item.body,
+                content: sanitizeHtml(parser.render(item.body), {
+                    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
+                }),
                 author: `${siteConfig.author} <${siteConfig.email}>`,
             }
         }),
